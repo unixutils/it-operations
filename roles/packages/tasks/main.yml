@@ -1,0 +1,13 @@
+---
+- name: install default packages for all systems
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ default_packages }}"
+
+- name: install extra packages if defined
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ extra_packages }}"
+

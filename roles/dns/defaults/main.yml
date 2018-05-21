@@ -1,0 +1,4 @@
+---
+primary_dns: '8.8.8.8'
+secondary_dns: '4.4.4.4'
+dns_domains: 'unixutils.com'

@@ -1,0 +1,17 @@
+---
+- name: update sysctl parameters if defined
+  block:
+    - name: calling variables based on group vars
+      include_vars:
+        file: "vars/{{ app }}.yml"
+
+    - name: configure sysctl
+      sysctl:
+        sysctl_file: /etc/sysctl.d/splunk.conf
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: yes
+      with_items:
+        - "{{ sysctl_parameters }}"
+  when: app is defined

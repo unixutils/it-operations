@@ -1,0 +1,17 @@
+---
+- name: Check if DNS is updated
+  shell: 'cat /etc/resolv.conf | egrep "{{ primary_dns }}|{{ secondary_dns }}" ||:'
+  register: output_dns
+  ignore_errors: yes
+
+- name: update DNS 
+  blockinfile:
+    dest: /etc/resolv.conf
+    marker: "#Updated with Ansible"
+    backup: yes
+    insertbefore: BOF
+    content: |
+      search {{ dns_domains }}
+      nameserver {{ primary_dns }}
+      nameserver {{ secondary_dns }}
+  when: output_dns.stdout == ""

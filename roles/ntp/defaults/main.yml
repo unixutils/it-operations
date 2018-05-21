@@ -1,0 +1,3 @@
+---
+ntp_primary: "time.google.com"
+ntp_secondary: "time.windows.com"

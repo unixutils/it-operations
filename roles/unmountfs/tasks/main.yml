@@ -1,0 +1,10 @@
+---
+- mount:
+    path: "{{ item }}"
+    state: unmounted
+  register: output
+  ignore_errors: true
+
+- name: Lazy unmount
+  command: umount -l "{{ item }}"
+  when: output.changed == false

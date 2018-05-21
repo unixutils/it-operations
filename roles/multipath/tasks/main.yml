@@ -1,0 +1,24 @@
+---
+- name: install multipath software and useful utils
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - device-mapper-multipath
+    - sysfsutils
+    - sg3_utils
+
+- name: put multipath config
+  template:
+    src: "{{ tuned_multipath | default('multipath.conf.j2') }}"
+    dest: /etc/multipath.conf
+    owner: root
+    group: root
+    mode: 0600
+  notify: reload multipathd
+
+- name: make sure multipathd is running
+  service:
+    name: multipathd
+    state: started
+    enabled: yes

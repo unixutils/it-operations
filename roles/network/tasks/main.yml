@@ -1,0 +1,23 @@
+---
+- name: create correct routes config file
+  lineinfile:
+    dest: "/etc/sysconfig/network-scripts/route-{{ item.0.interface }}"
+    create: yes
+    regexp: '^{{ item.1 }}'
+    line: '{{ item.1 }}'
+  with_subelements:
+    - "{{ server_network }}"
+    - routes
+  register: newroute
+
+- name: check routes
+  shell: ip route
+  changed_when: false
+  register: existing_routes
+
+- name: add the route live
+  shell: "ip route add {{ item.1 }}"
+  with_subelements:
+    - "{{ server_network }}"
+    - routes
+  when: newroute.changed and item.1 not in existing_routes.stdout

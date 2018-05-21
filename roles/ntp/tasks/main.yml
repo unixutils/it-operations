@@ -1,0 +1,16 @@
+---
+- name: remove NTP server defaults
+  lineinfile:
+   dest: /etc/ntp.conf
+   regexp: '^server.*.*pool.ntp.org.*'
+   state: absent
+  backup: yes
+
+- name: update NTP
+  lineinfile:
+    dest: /etc/ntp.conf
+    line: "{{ item }}"
+  with_items:
+    - "{{ ntp_primary }}"
+    - "{{ ntp_secondary }}"
+  notify: restart ntp

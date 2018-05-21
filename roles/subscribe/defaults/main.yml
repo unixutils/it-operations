@@ -1,0 +1,19 @@
+---
+satellite_default_org: "MYORG"
+rh_subscription_fqdn: mysatelliteurl.domain.com
+default_repos_7:
+  - rhel-7-server-rh-common-rpms
+  - rhel-7-server-optional-rpms
+  - rhel-7-server-extras-rpms
+  - rhel-7-server-supplementary-rpms
+  - rhel-server-rhscl-7-rpms
+  - rhel-7-server-rpms
+default_repos_6:
+  - rhel-6-server-rh-common-rpms
+  - rhel-6-server-optional-rpms
+  - rhel-6-server-extras-rpms
+  - rhel-6-server-supplementary-rpms
+  - rhel-server-rhscl-6-rpms
+  - rhel-6-server-rpms
+poolid7: 0a78a5685e470526015ecc7177c8634t
+poolid6: 4a78a568612c4eb20162b1954f977017

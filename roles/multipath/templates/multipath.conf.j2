@@ -1,0 +1,39 @@
+# {{ ansible_managed }}
+
+defaults {
+    user_friendly_names yes
+    find_multipaths yes
+}
+
+devices {
+        device {
+                vendor                  "TEGILE"
+                product                 "INTELLIFLASH"
+                hardware_handler        "1 alua"
+                path_selector           "round-robin 0"
+                path_grouping_policy    "group_by_prio"
+                no_path_retry           10
+                dev_loss_tmo            50
+                path_checker            tur
+                prio                    alua
+                failback                30
+        }
+        device {
+                vendor                  "3PARdata"
+                product                 "VV"
+                hardware_handler        "1 alua"
+                path_selector           "round-robin 0"
+                path_grouping_policy    "group_by_prio"
+                path_checker            tur
+                features                "0"
+                prio                    alua
+                failback                immediate
+                rr_weight               uniform
+                no_path_retry           18
+                rr_min_io_rq            1
+                detect_prio             yes
+         }
+}
+
+blacklist {
+}

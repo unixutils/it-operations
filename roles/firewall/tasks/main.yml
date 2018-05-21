@@ -1,0 +1,58 @@
+---
+- name: enable firewall and open ports
+  block:
+   - name: calling variables based on group vars
+     include_vars:
+      file: "vars/{{ app | default('standard') }}.yml"
+     when: firewall_enabled == "true"
+   
+   - name: start firewalld if el7
+     block:
+      - name: starting firewalld for el7
+        service:
+          name: firewalld
+          state: started
+          enabled: yes
+
+      - name: Open firewall ports - EL7
+        firewalld:
+          port: "{{ item }}"
+          immediate: true
+          permanent: true
+          state: enabled
+        with_items:
+          - "{{ open_ports }}"
+        notify: restart firewalld
+     when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")       
+   
+   - name: start ipdatbes if el6
+     block:
+      - name: start iptables if el6
+        service:
+         name: iptables
+         state: started
+         enabled: yes
+     
+      - name: Open firewall ports - EL6
+        command: iptables -I INPUT -p tcp -m tcp --dport "{{ item }}" -j ACCEPT
+        with_items:
+         - "{{ open_ports }}" 
+     when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
+  when: firewall_enabled == "true"
+
+- name: stop and disable firewall
+  block:
+   - name: stop firewalld if el7
+     service:
+      name: firewalld
+      state: stopped
+      enabled: no
+     when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+
+   - name: stop iptables if el6
+     service:
+      name: iptables
+      state: stopped
+      enabled: no
+     when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
+  when: firewall_enabled == "false"

@@ -1,0 +1,6 @@
+---
+- cron:
+    name: "reboot alert"
+    special_time: reboot
+    job: 'echo `hostname` rebooted on `date` | mail -s "`hostname` rebooted on `date`" admin@unixutils.com'
+    user: root

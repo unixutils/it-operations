@@ -1,0 +1,15 @@
+---
+- name: install sendmail
+  yum:
+    pkg: "{{ item }}"
+    state: installed
+  with_items:
+    - sendmail
+    - mailx
+
+- name: Update mail relay host
+  lineinfile:
+    dest: /etc/mail/sendmail.cf
+    regexp: ^DS
+    line: "{{ relay_host }}"
+  notify: reload sendmail

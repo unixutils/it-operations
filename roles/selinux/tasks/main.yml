@@ -1,0 +1,22 @@
+---
+- name: disable SELINUX
+  block:
+   - lineinfile:
+       dest: /etc/selinux/config
+       regexp: ^SELINUX=.*
+       line: SELINUX=disabled
+
+   - selinux:
+      state: disabled
+  when: selinux_enabled is defined and selinux_enabled == "false"
+
+- name: enable SELINUX
+  block:
+   - lineinfile:
+       dest: /etc/selinux/config
+       regexp: ^SELINUX=.*
+       line: SELINUX=enabled
+
+   - selinux:
+       state: enabled
+  when: selinux_enabled is defined and selinux_enabled == "true"

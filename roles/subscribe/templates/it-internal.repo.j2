@@ -1,0 +1,12 @@
+[it-internal]
+name=it-internal
+baseurl="http://yourdomainname.com/rhel{{ ansible_distribution_version }}-x86-64/"
+gpgcheck=0
+enabled=1
+
+[it-internal-DB]
+name=DB-packages
+baseurl=http://yourdomainname.com/DB-related-packages/
+gpgcheck=0
+enabled=1
+

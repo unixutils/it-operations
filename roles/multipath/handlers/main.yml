@@ -1,0 +1,6 @@
+---
+- name: reload multipathd
+  service:
+    name: multipathd
+    state: reloaded
+    enabled: yes

@@ -1,0 +1,6 @@
+---
+sysctl_parameters:
+- { param.name: 'net.core.rmem_max', param.value: '134217728' }
+- { param.name: 'net.core.wmem_max', param.value: '134217728' }
+- { param.name: 'net.ipv4.tcp_rmem', param.value: '16384 87380 67108864' }
+- { param.name: 'net.ipv4.tcp_wmem', param.value: '16384 87380 67108864' }

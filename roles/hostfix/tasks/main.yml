@@ -1,0 +1,30 @@
+---
+- name: Check if Hostname is updated in /etc/hosts
+  shell: 'cat /etc/hosts | egrep "{{ inventory_hostname_short }}" ||:'
+  register: output_etchosts
+  ignore_errors: yes
+
+- name: Update Etc Hosts File
+  shell: |
+    cp -p /etc/hosts /etc/hosts_`date +%F_%H%M%S`
+    echo -e "#Updated by Ansible\n{{ansible_default_ipv4.address}}      {{inventory_hostname}}  {{inventory_hostname_short}}" >> /etc/hosts
+  when: output_etchosts.stdout == ""
+
+- name: set hostname for rhel7
+  shell: hostnamectl set-hostname {{ inventory_hostname_short }}
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+
+- name: remove default entries for Hostname
+  block:
+    - name: remove existing hostname entries 
+      lineinfile:
+       dest: /etc/sysconfig/network
+       regexp: '^HOSTNAME=*'
+       state: absent
+      backup: yes
+
+    - name: update new hostname entry
+      lineinfile:
+       dest: /etc/sysconfig/network
+       line: "HOSTNAME={{ inventory_hostname_short }}"
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")

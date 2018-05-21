@@ -1,0 +1,65 @@
+---
+- name: Remove Default Repo Files
+  shell: |
+    cd /etc/yum.repos.d
+    mkdir -p OLD-Repo
+    mv *.repo OLD-Repo/
+  ignore_errors: True
+
+- name: remove katello-ca-consumer
+  yum:
+   name: katello-ca-consumer*
+   state: absent
+
+- name: install katello-ca-consumer
+  yum:
+   name: http://{{ rh_subscription_fqdn }}/pub/katello-ca-consumer-latest.noarch.rpm
+   state: present
+
+- name: unregister subscription manager
+  redhat_subscription:
+   state: absent
+  ignore_errors: True
+
+- name: subscribe server with a standard activation activation_key
+  redhat_subscription:
+    state: present
+    activationkey: "rhel{{ ansible_distribution_major_version }}-linux-std"
+    org_id: "{{ satellite_default_org }}"
+  ignore_errors: True
+
+- name: put internal repo 
+  template:
+    src: it-internal.repo.j2
+    dest: /etc/yum.repos.d/it-internal.repo
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Update Katello Agent
+  yum:
+   name: katello-agent
+   state: present
+  ignore_errors: True
+
+- block:
+    - name: el6 needs a refresh after subscription sometimes
+      shell: subscription-manager refresh
+
+    - name: make sure yum repolist is refreshed
+      yum:
+        name: rpm
+        state: present
+        update_cache: yes
+  when: ansible_distribution_major_version == '6'
+
+- name: enable yum cache
+  lineinfile:
+    path: /etc/yum.conf
+    regexp: '^keepcache='
+    line: 'keepcache=1'
+  register: yum_cache
+
+- name: create yum cache
+  shell: yum makecache fast
+  when: yum_cache.changed

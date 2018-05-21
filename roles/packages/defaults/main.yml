@@ -1,0 +1,30 @@
+---
+default_packages:
+  - dstat
+  - telnet
+  - traceroute
+  - nc
+  - vim
+  - lsof
+  - screen
+  - bzip2
+  - zip
+  - unzip
+  - rsync
+  - zsh
+  - yum-plugin-versionlock
+  - yum-utils
+  - nfs-utils
+  - tcpdump
+  - pciutils
+  - sysstat
+  - sendmail
+  - ntp
+  - net-tools
+  - mailx
+  - psmisc
+  - udev
+  - mlocate
+  - iotop
+
+extra_packages: []

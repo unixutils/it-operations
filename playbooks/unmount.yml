@@ -1,0 +1,13 @@
+---
+- hosts: "{{hosts}}"
+  gather_facts: no
+  vars:
+    unmountlist:
+      - "/mnt1"
+      - "/mnt2"
+
+  roles:
+    - role: unmountfs
+      with_items: "{{ unmountlist }}"
+      tags:
+        - unmountfs
