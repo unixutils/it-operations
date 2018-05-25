@@ -1,9 +1,0 @@
----
-- name: Generate ASCII art for hostname in milsndid02
-  local_action: shell figlet {{ inventory_hostname_short }} > {{ motd_file_path }}
-
-- name: copy motd output to remote server /etc/motd
-  copy:
-   src: motd_file
-   dest: /etc/motd
-
