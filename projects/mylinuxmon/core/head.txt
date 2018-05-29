@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="refresh" content="240">
+<title>MyLinuxMon</title>
+<style>
+
+pre {
+ overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not
+ needed in Firefox 3 */
+ white-space: pre-wrap; /* css-3 */
+ white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+ white-space: -pre-wrap; /* Opera 4-6 */
+ white-space: -o-pre-wrap; /* Opera 7 */
+ /* width: 99%; */
+ word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+
+body {
+    src: url(../css/TitilliumWeb-Regular.ttf);
+    font-family: 'Titillium Web', sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13px;
+}
+
+input[type=text] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #f8be1b;
+    border-radius: 4px;
+}
+
+
+
+th, tr, td {
+    text-align: left;
+    padding: 8px;
+    white-space: nowrap;
+}
+
+
+th {
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-image: url(../css/sort.png);
+    text-align: left;
+    padding: 8px;
+    white-space: nowrap;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
+
+</head>
+<body>
+<label style="width 20%; padding-right:5px; display:inline-block;" for="myInput"><h4>Search Hosts</h4></label>
+<input type="text" id="myInput" onkeyup="mysearch()" placeholder="Hostname"
+title="Type in a name">
+<table border="1" id="myTable">
