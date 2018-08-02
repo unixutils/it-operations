@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 port=22
 
 #declare path to files
-path='/home/nbora/python_scripts'
+path='/home/python_scripts'
 
 #ssh connection
 ssh=paramiko.SSHClient()
