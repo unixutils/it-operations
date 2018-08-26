@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 port=22
 
 #declare path to files
-path='/home/python_scripts'
+path='/home/unixutils-admin/python_scripts/run-commands-remotely/'
 
 #ssh connection
 ssh=paramiko.SSHClient()
